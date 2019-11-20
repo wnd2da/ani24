@@ -56,9 +56,7 @@ function on_status(data) {
 }
 
 function make_download_list(data) {
-  console.log(data)
   str = '';
-  
   for (i in data) {
     str += m_row_start();
     str += m_col(1, data[i].entity_id);
@@ -111,7 +109,6 @@ function program_auto_command(data) {
     data: data,
     dataType: "json",
     success: function (ret) {
-      console.log(ret)
       if (ret.ret == 'notify') {
         $.notify('<strong>'+ ret.log +'</strong>', {
           type: 'warning'

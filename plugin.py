@@ -42,7 +42,7 @@ plugin_info = {
     'category_name' : 'vod',
     'icon' : '',
     'developer' : 'soju6jan',
-    'description' : 'Ani24 제공 비디오 다운로드',
+    'description' : 'Ani24 사이트에서 애니 다운로드',
     'home' : 'https://github.com/soju6jan/ani24_sjva',
     'more' : '',
 }
