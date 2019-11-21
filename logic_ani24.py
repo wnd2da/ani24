@@ -90,13 +90,17 @@ class LogicAni24(object):
             else:
                 data['season'] = '1'
             data['title'] = tmp.replace(data['season']+u'기', '').strip()
-            data['title'] = Util.change_text_for_use_filename(data['title'])
-            data['poster_url'] = 'https:' + tree.xpath('//div[@class="ani_info_left_box"]/img')[0].attrib['src']
-            data['detail'] = []
-            tmp = tree.xpath('//div[@class="ani_info_right_box"]/div')
-            for t in tmp:
-                detail = t.xpath('.//span')
-                data['detail'].append({detail[0].text_content().strip():detail[-1].text_content().strip()})
+            data['title'] = Util.change_text_for_use_filename(data['title']).replace('OVA', '').strip()
+            try:
+                data['poster_url'] = 'https:' + tree.xpath('//div[@class="ani_info_left_box"]/img')[0].attrib['src']
+                data['detail'] = []
+                tmp = tree.xpath('//div[@class="ani_info_right_box"]/div')
+                for t in tmp:
+                    detail = t.xpath('.//span')
+                    data['detail'].append({detail[0].text_content().strip():detail[-1].text_content().strip()})
+            except:
+                data['detail'] = [{'정보없음':''}]
+                data['poster_url'] = None
 
             tmp = tree.xpath('//span[@class="episode_count"]')[0].text_content().strip()
             match = re.compile(r'\d+').search(tmp)

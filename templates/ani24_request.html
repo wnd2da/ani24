@@ -65,7 +65,9 @@ function make_program(data) {
   // program
   str += m_hr_black();
   str += m_row_start(0);
-  tmp = '<img src="' + data.poster_url + '" class="img-fluid">';
+  tmp = ''
+  if (data.poster_url != null) 
+    tmp = '<img src="' + data.poster_url + '" class="img-fluid">';
   str += m_col(3, tmp)
   tmp = ''
   tmp += m_row_start(0);
