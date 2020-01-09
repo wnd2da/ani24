@@ -12,14 +12,11 @@ from datetime import datetime
 from framework.logger import get_logger
 from framework import db, app, path_app_root
 # 패키지
+from .plugin import package_name, logger
 
-# 로그
-package_name = __name__.split('.')[0].split('_sjva')[0]
-logger = get_logger(package_name)
 
-if app.config['config']['run_by_real']:
-    db_file = os.path.join(path_app_root, 'data', 'db', '%s.db' % package_name)
-    app.config['SQLALCHEMY_BINDS'][package_name] = 'sqlite:///%s' % (db_file)
+db_file = os.path.join(path_app_root, 'data', 'db', '%s.db' % package_name)
+app.config['SQLALCHEMY_BINDS'][package_name] = 'sqlite:///%s' % (db_file)
 
 
 class ModelSetting(db.Model):

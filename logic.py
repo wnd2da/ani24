@@ -17,12 +17,11 @@ from framework.util import Util
 from framework.logger import get_logger
 
 # 패키지
+from .plugin import package_name, logger
 from .model import ModelSetting
 from .logic_queue import LogicQueue
 from .logic_ani24 import LogicAni24
 
-package_name = __name__.split('.')[0].split('_sjva')[0]
-logger = get_logger(package_name)
 #########################################################
 
 
