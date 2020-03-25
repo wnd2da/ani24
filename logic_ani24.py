@@ -79,7 +79,7 @@ class LogicAni24(object):
             #https://files0.filegroupa.com/redirect.php?path=%2ffiles%2f0%2fnew%2fid_39450.mp4
             try:
                 if video_url.find('/redirect.php') != -1:
-                    video_url = video_url.split('/redirect.php')[0] + video_url.split('path=')[1].replace('%2f', '/')
+                    video_url = video_url.split('/redirect.php')[0] + video_url.split('path=')[1].replace('%2f', '/').replace('%2F', '/')
             except:
                 pass
             return video_url
