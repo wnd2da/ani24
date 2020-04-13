@@ -65,18 +65,26 @@ class LogicAni24(object):
             #logger.debug(url2)
             data = LogicAni24.get_html(url2)
 
-            #logger.debug(data)
-            #video_url = 'http%s.mp4' % data.split('.mp4"')[0].split('"http')[-1]
-            tmp = 'sources: [{"file":"'
-            idx1 = data.find(tmp) + len(tmp)
-            idx2 = data.find('"', idx1)
-            #logger.debug(idx1)
-            #logger.debug(idx2)
-            video_url = data[idx1:idx2]
-            #logger.debug(video_url)
-
-            #https://files0.filegroupa.com/files/0/new/id_39450.mp4
-            #https://files0.filegroupa.com/redirect.php?path=%2ffiles%2f0%2fnew%2fid_39450.mp4
+            logger.debug(data)
+            #tmp = 'sources: [{"file":"'
+            #idx1 = data.find(tmp) + len(tmp)
+            #idx2 = data.find('"', idx1)
+            #video_url = data[idx1:idx2]
+            video_url = None
+            try:
+                tmp = "video.src = '"
+                idx1 = data.find(tmp) + len(tmp)
+                idx2 = data.find("'", idx1)
+                video_url = data[idx1:idx2]
+                logger.debug(video_url)
+            except:
+                pass
+            if video_url is None:
+                tmp = 'sources: [{"file":"'
+                idx1 = data.find(tmp) + len(tmp)
+                idx2 = data.find('"', idx1)
+                video_url = data[idx1:idx2]
+            logger.debug(video_url)
             try:
                 if video_url.find('/redirect.php') != -1:
                     video_url = video_url.split('/redirect.php')[0] + video_url.split('path=')[1].replace('%2f', '/').replace('%2F', '/')
