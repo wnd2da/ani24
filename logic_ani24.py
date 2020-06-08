@@ -65,7 +65,7 @@ class LogicAni24(object):
             #logger.debug(url2)
             data = LogicAni24.get_html(url2)
 
-            logger.debug(data)
+            #logger.debug(data)
             #tmp = 'sources: [{"file":"'
             #idx1 = data.find(tmp) + len(tmp)
             #idx2 = data.find('"', idx1)
