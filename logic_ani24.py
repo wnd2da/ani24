@@ -55,12 +55,15 @@ class LogicAni24(object):
         try:
             url = '%s/ani_view/%s.html' % (ModelSetting.get('ani24_url'), episode_id)
             data = LogicAni24.get_html(url)
+            logger.debug(data)
             tree = html.fromstring(data)
+            
             tag = tree.xpath('//div[@class="qwgqwf"]')
             if tag:
                 title = tag[0].text_content().strip().encode('utf8')
             else:
                 return None
+            #logger.debug(title)
             url2 = 'https://fileiframe.com/ani_video4/%s.html?player=' % episode_id
             #logger.debug(url2)
             data = LogicAni24.get_html(url2)
@@ -73,10 +76,12 @@ class LogicAni24(object):
             video_url = None
             try:
                 tmp = "video.src = '"
-                idx1 = data.find(tmp) + len(tmp)
-                idx2 = data.find("'", idx1)
-                video_url = data[idx1:idx2]
-                logger.debug(video_url)
+                idx1 = data.find(tmp)
+                if idx1 != -1:
+                    idx1 = idx1 + len(tmp)
+                    idx2 = data.find("'", idx1)
+                    video_url = data[idx1:idx2]
+                    #logger.debug(video_url)
             except:
                 pass
             if video_url is None:
@@ -84,7 +89,7 @@ class LogicAni24(object):
                 idx1 = data.find(tmp) + len(tmp)
                 idx2 = data.find('"', idx1)
                 video_url = data[idx1:idx2]
-            logger.debug(video_url)
+            #logger.debug(video_url)
             try:
                 if video_url.find('/redirect.php') != -1:
                     video_url = video_url.split('/redirect.php')[0] + video_url.split('path=')[1].replace('%2f', '/').replace('%2F', '/')
