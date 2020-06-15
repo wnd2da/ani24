@@ -45,5 +45,63 @@ class ModelSetting(db.Model):
         except Exception as e:
             logger.error('Exception:%s %s', e, key)
             logger.error(traceback.format_exc())
+            
+    
+    @staticmethod
+    def get_int(key):
+        try:
+            return int(ModelSetting.get(key))
+        except Exception as e:
+            logger.error('Exception:%s %s', e, key)
+            logger.error(traceback.format_exc())
+    
+    @staticmethod
+    def get_bool(key):
+        try:
+            return (ModelSetting.get(key) == 'True')
+        except Exception as e:
+            logger.error('Exception:%s %s', e, key)
+            logger.error(traceback.format_exc())
+
+    @staticmethod
+    def set(key, value):
+        try:
+            item = db.session.query(ModelSetting).filter_by(key=key).with_for_update().first()
+            if item is not None:
+                item.value = value.strip()
+                db.session.commit()
+            else:
+                db.session.add(ModelSetting(key, value.strip()))
+        except Exception as e:
+            logger.error('Exception:%s %s', e, key)
+            logger.error(traceback.format_exc())
+
+    @staticmethod
+    def to_dict():
+        try:
+            ret = Util.db_list_to_dict(db.session.query(ModelSetting).all())
+            ret['package_name'] = package_name
+            return ret 
+        except Exception as e:
+            logger.error('Exception:%s ', e)
+            logger.error(traceback.format_exc())
+
+
+    @staticmethod
+    def setting_save(req):
+        try:
+            for key, value in req.form.items():
+                logger.debug('Key:%s Value:%s', key, value)
+                if key in ['scheduler', 'is_running']:
+                    continue
+                entity = db.session.query(ModelSetting).filter_by(key=key).with_for_update().first()
+                entity.value = value
+            db.session.commit()
+            return True                  
+        except Exception as e: 
+            logger.error('Exception:%s', e)
+            logger.error(traceback.format_exc())
+            logger.debug('Error Key:%s Value:%s', key, value)
+            return False
 
 #########################################################

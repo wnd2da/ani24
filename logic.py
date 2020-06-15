@@ -43,6 +43,8 @@ class Logic(object):
                 if db.session.query(ModelSetting).filter_by(key=key).count() == 0:
                     db.session.add(ModelSetting(key, value))
             db.session.commit()
+            if ModelSetting.get('ani24_url') == 'https://ani24zo.com':
+                ModelSetting.set('ani24_url', 'https://ani24do.com')
         except Exception as e:
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
