@@ -112,7 +112,7 @@ class LogicQueue(object):
                     continue
 
                 import ffmpeg
-                max_pf_count = 0 
+                #max_pf_count = 0 
                 save_path = ModelSetting.get('download_path')
                 if ModelSetting.get('auto_make_folder') == 'True':
                     program_path = os.path.join(save_path, entity.info['filename'].split('.')[0])
@@ -128,7 +128,7 @@ class LogicQueue(object):
                     entity.ffmpeg_percent = 100
                     plugin.socketio_list_refresh()
                     continue
-                f = ffmpeg.Ffmpeg(entity.url, entity.info['filename'], plugin_id=entity.entity_id, listener=LogicQueue.ffmpeg_listener, max_pf_count=max_pf_count, call_plugin=package_name, save_path=save_path)
+                f = ffmpeg.Ffmpeg(entity.url, entity.info['filename'], plugin_id=entity.entity_id, listener=LogicQueue.ffmpeg_listener, call_plugin=package_name, save_path=save_path)
                 f.start()
                 LogicQueue.current_ffmpeg_count += 1
                 LogicQueue.download_queue.task_done()    
