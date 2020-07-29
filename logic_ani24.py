@@ -36,6 +36,7 @@ class LogicAni24(object):
     session = None
     referer = None
     current_data = None
+    list_order_by = None
 
     @staticmethod
     def get_html(url):
@@ -104,9 +105,13 @@ class LogicAni24(object):
     @staticmethod
     def get_title_info(code):
         try:
-            if LogicAni24.current_data is not None and LogicAni24.current_data['code'] == code and LogicAni24.current_data['ret']:
+            if LogicAni24.current_data is not None and LogicAni24.current_data['code'] == code and LogicAni24.current_data['ret'] and LogicAni24.list_order_by == ModelSetting.get('list_order_by'):
                 return LogicAni24.current_data
             url = '%s/ani_list/%s.html' % (ModelSetting.get('ani24_url'), code)
+
+            LogicAni24.list_order_by = ModelSetting.get('list_order_by')
+            if LogicAni24.list_order_by == 'True':
+                 url = '%s/ani_list/%s.html?order=asc' % (ModelSetting.get('ani24_url'), code)
             data = LogicAni24.get_html(url)
             tree = html.fromstring(data)
 
