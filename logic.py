@@ -29,6 +29,7 @@ class Logic(object):
     db_default = {
         "ani24_url" : "https://ani24zo.com",
         'download_path' : os.path.join(path_data, 'ani24'),
+        'list_order_by' : 'False',
         'include_date' : 'False',
         'date_option' : '0', # 0:YYMMDD, 1:YYYY-MM-DD
         'auto_make_folder' : 'True',
